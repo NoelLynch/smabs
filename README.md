@@ -1,4 +1,4 @@
 smabs
 =====
 
-Small Ass Build System
+SMall Ass Build System
