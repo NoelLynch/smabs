@@ -1,0 +1,47 @@
+{
+    "phases" :
+    {
+        "Libs assembly" : {
+            "type" : "assemble",
+            "files" : [
+                "libs/jquery-1.10.2.min.js",
+                "libs/bootstrap/js/bootstrap.min.js",
+                "libs/bigthunk-min.js"
+            ],
+            "dst" : "externs.js",
+            "options" : {
+                "overwriteTarget" : true, "archiveExisting" : true
+            }
+        },
+
+        "Coffee Compile" : { "type" : "coffeeCompile", "srcDir" : "js" },
+
+        "Minify Source" : { "type" : "minifyJS", "srcDir" : "js", "outDir" : "minJS" },
+
+        "Final Assembly" : {
+            "type" : "assemble",
+            "files" : [
+                "externs.js"
+            ],
+            "dirs" : [
+                {
+                    "src" : "minJS", "ext" : "js"
+                }
+            ],
+            "dst" : "app.js",
+            "options" : {
+                "overwriteTarget" : true
+            }
+        }
+    },
+
+    "targets" :
+        {
+            "all" : [ "Libs assembly", "Coffee Compile", "Minify Source", "Final Assembly" ],
+            "min" : [ "Minify Source", "Final Assembly" ],
+            "libs" : [ "Libs assembly", "Final Assembly" ]
+        }
+    ,
+
+    "defaultTarget" : "all"
+}
