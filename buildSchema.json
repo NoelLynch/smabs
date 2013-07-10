@@ -1,0 +1,65 @@
+{
+    "phases" :
+    {
+        "Libs assembly" : {
+            "type" : "assemble",
+            "_comment" : "Assembles files and directories into 1 single file",
+
+            "files" : {
+                "_comment" : "array of files to assemble",
+                "_example" : "['libs/jquery.js', 'libs/bootstrap-min.js']"
+            },
+            "dirs" : {
+                "_comment" : "an array of objects defining the source directory to load and the extension of the files to assemble"
+                "_example" : "[{'src' : 'minJS', 'ext' : 'js'}, {'src' : 'libs', 'ext' : 'js'}]"
+            },
+            "dst" : {
+                "_comment" : "name of file all files are to be assembled into",
+                "_example" : "myFile.css"
+            },
+            "options" : {
+                "overwriteTarget" : {
+                    "_comment" : "delete existing destination",
+                    "_example" : "true/false"
+                },
+                "archiveExisting" : {
+                    "_comment" : "archive the existing file",
+                    "_example" : "true/false"
+                }
+            }
+        },
+
+        "Coffee Compile" : {
+            "type" : "coffeeCompile",
+            "srcDir" : "js"
+        },
+
+        "Minify Source" : { "type" : "minifyJS", "srcDir" : "js", "outDir" : "minJS" },
+
+        "Final Assembly" : {
+            "type" : "assemble",
+            "files" : [
+                "externs.js"
+            ],
+            "dirs" : [
+                {
+                    "src" : "minJS", "ext" : "js"
+                }
+            ],
+            "dst" : "app.js",
+            "options" : {
+                "overwriteTarget" : true
+            }
+        }
+    },
+
+    "targets" :
+    {
+        "all" : [ "Libs assembly", "Coffee Compile", "Minify Source", "Final Assembly" ],
+        "min" : [ "Minify Source", "Final Assembly" ],
+        "libs" : [ "Libs assembly", "Final Assembly" ]
+    }
+    ,
+
+    "defaultTarget" : "all"
+}
