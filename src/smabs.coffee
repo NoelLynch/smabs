@@ -1,6 +1,6 @@
 FileSys = require("fs")
 SMABSFileSys = require("./SMABSUtils")
-
+Templates = require("./templates")
 AssembleFilesPhase = require("./phases/AssembleFilesPhase")
 CoffeeScriptCompilePhase = require("./phases/CoffeeScriptCompilePhase")
 MinifyJSPhase = require("./phases/MinifyJSPhase")
@@ -19,6 +19,13 @@ processArgs = ->
       when "-b" then args.buildJSON = array[idx + 1]
       when "-w" then args.rootDir = array[idx + 1]
       when "-t" then args.target = array[idx + 1]
+      when "-template"
+        if array[idx + 1] is "get"
+          doGetTemplate(array[idx + 2], array[idx + 3])
+        else if array[idx + 1] is "save"
+          doSaveTemplate(array[idx + 2], array[idx + 3])
+        r = false
+
       when "-h"
         doHelp()
         r = false
@@ -28,14 +35,28 @@ processArgs = ->
 
   r
 
+doSaveTemplate = (name, dir) ->
+  conf = loadBuildConf()
+  Templates.doSaveTemplate(name, dir, args, conf)
+
+doGetTemplate = (name, dir) ->
+  conf = loadBuildConf()
+  Templates.doGetTemplate(name, dir, args, conf)
+
 doHelp = ->
-  console.log("\n\n**************************")
-  console.log("\n\nsmabs : (SMall Ass Build System)")
-  console.log("usage")
-  console.log("\t-b filename, specifies the json config file, default is build.json")
-  console.log("\t-w working directory, specifies the working directory, default is .")
-  console.log("\t-t target name, specifies the target to execute, default can be defined in build.json or else attempts an 'all' target ")
-  console.log("\n\n**************************")
+  console.log("""
+              \n**************************
+              \nsmabs : (SMall Ass Build System)
+              usage
+              \t-b filename : specifies the json config file, default is build.json
+              \t-w workingDirectory : specifies the working directory, default is .
+              \t-t targetName : specifies the target to execute, default can be defined in build.json or else attempts an 'all' target
+              \t-template get/save, templateName, directory (save - snapshots this directory, get - loads into this directory) :
+              \t\tget : load the template contents into the directory
+              \t\tsave : create a template by snapshoting the contents of the directory
+              \n\n**************************
+              """)
+
 
 getTargetPhases = (name, conf) ->
   if conf.targets[name]? then return conf.targets[name]
