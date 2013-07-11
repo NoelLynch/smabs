@@ -7,6 +7,13 @@ FindIt = require("findit");
 
 Path = require('path');
 
+exports.getFileContents = function(path) {
+  if (!FileSys.existsSync(path)) {
+    return null;
+  }
+  return FileSys.readFileSync(path, "utf-8");
+};
+
 exports.deleteFileIfExists = function(path) {
   if (FileSys.existsSync(path)) {
     return FileSys.unlinkSync(path);

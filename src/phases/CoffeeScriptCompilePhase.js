@@ -12,15 +12,6 @@ SMABSFileSys = require("../SMABSUtils");
 handlePhaseOptions = function(phase, args) {
   if (!(phase.options != null)) {
     console.log("\tno options");
-    return;
-  }
-  if (phase.options.archiveExisting === true) {
-    console.log("\tBacking up existing");
-    SMABSFileSys.deleteFileIfExists(args.rootDir + phase.target + "_OLD");
-  }
-  if (phase.options.overwriteTarget === true) {
-    console.log("\tDeleting existing target");
-    return SMABSFileSys.deleteFileIfExists(args.rootDir + phase.target);
   }
 };
 

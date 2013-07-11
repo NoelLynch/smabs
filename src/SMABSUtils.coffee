@@ -2,6 +2,11 @@ FileSys = require "fs"
 FindIt = require("findit")
 Path = require('path')
 
+exports.getFileContents = (path) ->
+  if not FileSys.existsSync(path) then return null
+
+  return FileSys.readFileSync(path, "utf-8")
+
 exports.deleteFileIfExists = (path) ->
   if FileSys.existsSync(path)
     FileSys.unlinkSync(path)

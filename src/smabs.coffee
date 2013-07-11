@@ -4,6 +4,7 @@ Templates = require("./templates")
 AssembleFilesPhase = require("./phases/AssembleFilesPhase")
 CoffeeScriptCompilePhase = require("./phases/CoffeeScriptCompilePhase")
 MinifyJSPhase = require("./phases/MinifyJSPhase")
+LessCompilePhase = require("./phases/LessCompilePhase")
 
 args = {
   buildJSON : "build.json",
@@ -97,6 +98,7 @@ run = ->
         when "assemble" then AssembleFilesPhase.doPhase(p, args)
         when "coffeeCompile" then CoffeeScriptCompilePhase.doPhase(p, args)
         when "minifyJS" then MinifyJSPhase.doPhase(p, args)
+        when "lessCompile" then LessCompilePhase.doPhase(p, args)
 
       console.log "...Phase complete\n\n"
     else
