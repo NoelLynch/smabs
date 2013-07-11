@@ -1,6 +1,8 @@
 {
     "phases" :
     {
+        "Less Compile" : { "type" : "lessCompile", "srcDir" : "css" },
+
         "Libs assembly" : {
             "type" : "assemble",
             "files" : [
@@ -39,7 +41,8 @@
         {
             "all" : [ "Libs assembly", "Coffee Compile", "Minify Source", "Final Assembly" ],
             "min" : [ "Minify Source", "Final Assembly" ],
-            "libs" : [ "Libs assembly", "Final Assembly" ]
+            "libs" : [ "Libs assembly", "Final Assembly" ],
+            "less" : [ "Less Compile" ]
         }
     ,
 
