@@ -43,5 +43,6 @@
         }
     ,
 
-    "defaultTarget" : "all"
+    "defaultTarget" : "all",
+    "templatesDir" : "../tmpl"
 }
