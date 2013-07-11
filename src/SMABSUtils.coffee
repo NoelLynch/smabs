@@ -16,6 +16,8 @@ exports.findAllOfType = (rootDir, ext, filesOnly, cb) ->
       cb nameExt, Path.dirname(file), file
 
 exports.copyFile = (from, to, overwrite) ->
+  if not FileSys.existsSync(from) then return
+
   if not overwrite and FileSys.existsSync(to) then return
 
   exports.deleteFileIfExists(to)

@@ -32,6 +32,9 @@ exports.findAllOfType = function(rootDir, ext, filesOnly, cb) {
 
 exports.copyFile = function(from, to, overwrite) {
   var data;
+  if (!FileSys.existsSync(from)) {
+    return;
+  }
   if (!overwrite && FileSys.existsSync(to)) {
     return;
   }

@@ -53,6 +53,7 @@ exports.doPhase = function(phase, args) {
     for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
       dir = _ref1[_j];
       if ((dir.src != null) && (dir.ext != null)) {
+        console.log("\texamining " + (args.rootDir + dir.src) + " for " + dir.ext);
         SMABSFileSys.findAllOfType(args.rootDir + dir.src, dir.ext, true, function(name, dir, path) {
           console.log("\tassembling " + name + " from dir " + dir + " into " + phase.dst);
           partF = FileSys.readFileSync(path, "utf8");
@@ -62,6 +63,8 @@ exports.doPhase = function(phase, args) {
         console.log("\t*** No src dir or ext specified for dir entry " + dir);
       }
     }
+  } else {
+    console.log("\tNo dirs to load from");
   }
   return true;
 };

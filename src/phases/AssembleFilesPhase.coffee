@@ -41,6 +41,7 @@ exports.doPhase = (phase, args) ->
   if phase.dirs?
     for dir in phase.dirs
       if dir.src? and dir.ext?
+        console.log "\texamining #{args.rootDir + dir.src} for #{dir.ext}"
         SMABSFileSys.findAllOfType(args.rootDir + dir.src, dir.ext, true, (name, dir, path) ->
           console.log "\tassembling #{name} from dir #{dir} into #{phase.dst}"
           partF = FileSys.readFileSync(path, "utf8")
@@ -48,5 +49,7 @@ exports.doPhase = (phase, args) ->
         )
       else
         console.log "\t*** No src dir or ext specified for dir entry #{dir}"
+  else
+    console.log "\tNo dirs to load from"
 
   true
