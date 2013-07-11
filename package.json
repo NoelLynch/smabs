@@ -1,26 +1,27 @@
 {
-  "name": "smabs",
-  "version": "0.0.1",
-  "description": "SMAll Build System",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "Build",
-    "System",
-    "Automation"
-  ],
-  "author": "Noel Lynch",
-  "license": "Apache",
-   "dependencies": {
-        "uglify-js": ">2",
-        "coffee-script" : ">1.6",
-        "findit" : "0.1.2",
-        "mkdirp" : "0.3.5",
-        "wrench" : "1.5.1"
+    "name": "smabs",
+    "version": "0.0.1",
+    "description": "SMAll Build System",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "bin" : {
-        "smabs" : "./index.js"
+    "keywords": [
+        "Build",
+        "System",
+        "Automation"
+    ],
+    "author": "Noel Lynch",
+    "license": "Apache",
+    "dependencies": {
+        "uglify-js": ">2",
+        "coffee-script": ">1.6",
+        "findit": "0.1.2",
+        "mkdirp": "0.3.5",
+        "wrench": "1.5.1",
+        "less" :"1.4.1"
+    },
+    "bin": {
+        "smabs": "./index.js"
     }
 }
