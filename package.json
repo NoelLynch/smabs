@@ -14,8 +14,8 @@
     "author": "Noel Lynch",
     "license": "Apache",
     "dependencies": {
-        "uglify-js": ">2",
-        "coffee-script": ">1.6",
+        "uglify-js": "2.3.6",
+        "coffee-script": "1.6.3",
         "findit": "0.1.2",
         "mkdirp": "0.3.5",
         "wrench": "1.5.1",
