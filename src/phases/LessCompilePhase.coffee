@@ -11,7 +11,7 @@ handlePhaseOptions = (phase, args) ->
 
 exports.doPhase = (phase, args) ->
   if not phase.srcDir?
-    console.log "You must specify a source dir for this phase"
+    console.log "\t*** You must specify a source dir for this phase"
     return
 
   handlePhaseOptions(phase)
@@ -22,6 +22,7 @@ exports.doPhase = (phase, args) ->
       name : name, par : parDir, path : fullPath
     }
   )
+  console.log "\tAbout to compile #{files}"
 
   while files.length > 0
     f = files.pop()
@@ -34,4 +35,7 @@ next = (args, phase, name, parDir, fullPath) ->
   lessF = SMABSUtils.getFileContents(fullPath)
 
   LessC.render lessF, (e, css) ->
+    if not css?
+      console.log "\t*** " + e.toString()
+      return
     FileSys.writeFileSync(compiledFile, css)

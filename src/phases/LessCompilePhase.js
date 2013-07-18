@@ -18,7 +18,7 @@ handlePhaseOptions = function(phase, args) {
 exports.doPhase = function(phase, args) {
   var f, files, _results;
   if (!(phase.srcDir != null)) {
-    console.log("You must specify a source dir for this phase");
+    console.log("\t*** You must specify a source dir for this phase");
     return;
   }
   handlePhaseOptions(phase);
@@ -30,6 +30,7 @@ exports.doPhase = function(phase, args) {
       path: fullPath
     });
   });
+  console.log("\tAbout to compile " + files);
   _results = [];
   while (files.length > 0) {
     f = files.pop();
@@ -45,6 +46,10 @@ next = function(args, phase, name, parDir, fullPath) {
   SMABSUtils.deleteFileIfExists(compiledFile);
   lessF = SMABSUtils.getFileContents(fullPath);
   return LessC.render(lessF, function(e, css) {
+    if (!(css != null)) {
+      console.log("\t*** " + e.toString());
+      return;
+    }
     return FileSys.writeFileSync(compiledFile, css);
   });
 };
