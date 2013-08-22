@@ -16,21 +16,24 @@ handlePhaseOptions = function(phase, args) {
 };
 
 exports.doPhase = function(phase, args) {
-  var f, files, _results;
+  var f, files, filesR, _i, _len, _results;
   if (!(phase.srcDir != null)) {
     console.log("\t*** You must specify a source dir for this phase");
     return;
   }
   handlePhaseOptions(phase);
+  filesR = FileSys.readdirSync(args.rootDir + phase.srcDir);
   files = [];
-  SMABSUtils.findAllOfType(args.rootDir + phase.srcDir, "less", true, function(name, parDir, fullPath) {
-    return files.push({
-      name: name,
-      par: parDir,
-      path: fullPath
-    });
-  });
-  console.log("\tAbout to compile " + files);
+  for (_i = 0, _len = filesR.length; _i < _len; _i++) {
+    f = filesR[_i];
+    if (Path.extname(f) === ".less") {
+      files.push({
+        name: Path.basename(f),
+        par: Path.dirname(f),
+        path: Path.dirname(f) + "/" + Path.basename(f)
+      });
+    }
+  }
   _results = [];
   while (files.length > 0) {
     f = files.pop();
@@ -42,12 +45,16 @@ exports.doPhase = function(phase, args) {
 next = function(args, phase, name, parDir, fullPath) {
   var compiledFile, lessF;
   compiledFile = parDir + "/" + Path.basename(name, ".less") + ".css";
-  console.log("\tcompiling " + name + " to " + compiledFile);
+  console.log("\tcompiling " + fullPath + " to " + compiledFile);
   SMABSUtils.deleteFileIfExists(compiledFile);
   lessF = SMABSUtils.getFileContents(fullPath);
+  if (lessF === null) {
+    console.log("\t*** Could not read file " + fullPath + ", name : " + name + ", base : " + parDir);
+    return;
+  }
   return LessC.render(lessF, function(e, css) {
     if (!(css != null)) {
-      console.log("\t*** " + e.toString());
+      console.log(("\t*** Error compiling " + fullPath + ", Cause : ") + e.toString());
       return;
     }
     return FileSys.writeFileSync(compiledFile, css);

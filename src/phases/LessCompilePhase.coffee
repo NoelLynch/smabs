@@ -16,13 +16,11 @@ exports.doPhase = (phase, args) ->
 
   handlePhaseOptions(phase)
 
+  filesR = FileSys.readdirSync(args.rootDir + phase.srcDir)
+
   files = []
-  SMABSUtils.findAllOfType(args.rootDir + phase.srcDir, "less", true, (name, parDir, fullPath) ->
-    files.push {
-      name : name, par : parDir, path : fullPath
-    }
-  )
-  console.log "\tAbout to compile #{files}"
+  for f in filesR
+    if Path.extname(f) is ".less" then files.push { name : Path.basename(f), par : Path.dirname(f), path : Path.dirname(f) + "/" + Path.basename(f) }
 
   while files.length > 0
     f = files.pop()
@@ -30,12 +28,16 @@ exports.doPhase = (phase, args) ->
 
 next = (args, phase, name, parDir, fullPath) ->
   compiledFile = parDir + "/" + Path.basename(name, ".less") + ".css"
-  console.log "\tcompiling #{name} to #{compiledFile}"
+  console.log "\tcompiling #{fullPath} to #{compiledFile}"
   SMABSUtils.deleteFileIfExists(compiledFile)
   lessF = SMABSUtils.getFileContents(fullPath)
 
+  if lessF is null
+    console.log "\t*** Could not read file #{fullPath}, name : #{name}, base : #{parDir}"
+    return
+
   LessC.render lessF, (e, css) ->
     if not css?
-      console.log "\t*** " + e.toString()
+      console.log "\t*** Error compiling #{fullPath}, Cause : " + e.toString()
       return
     FileSys.writeFileSync(compiledFile, css)
