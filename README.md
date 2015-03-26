@@ -1,4 +1,4 @@
 smabs
 =====
 
-[a link](http://noellynch.github.io/smabs)
+[docs docs docs](http://noellynch.github.io/smabs)
