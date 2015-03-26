@@ -1,11 +1,4 @@
 smabs
 =====
 
-SMall Ass Build System
-
-This tool i
-
-install
-=======
-
-sudo npm install -g
+[a link](http://noellynch.github.io/smabs)
